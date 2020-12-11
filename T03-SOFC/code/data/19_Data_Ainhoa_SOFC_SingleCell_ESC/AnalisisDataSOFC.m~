@@ -1,15 +1,5 @@
 clear 
-
-files = dir('data/19_Data_Ainhoa_SOFC_SingleCell_ESC/SPS_Data/');
-
-%%0 
-path = pwd; 
-%%
-
-filename = files(6).name;
-%% Set up the Import Options and import the data
-
-DataSOFCtable  = DataSOFC(filename);
+load('data/19_Data_Ainhoa_SOFC_SingleCell_ESC/DataSOFC.mat')
 %%
 figure(1)
 clf
@@ -43,7 +33,7 @@ iter = 0;
 for i = 1:length(inds)
 
     iter = iter +1;
-    subplot(8,7,iter)
+    subplot(6,6,iter)
 
     plot(DataSOFCtable.Time,DataSOFCtable{:,inds(i)})
     xlabel('')
