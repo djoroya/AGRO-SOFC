@@ -7,6 +7,9 @@
 
 
 function DataSOFCtable = DataSOFC(filename)
+
+path = pwd; 
+
 opts = delimitedTextImportOptions("NumVariables", 67);
 
 % Specify range and delimiter

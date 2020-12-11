@@ -1,56 +1,32 @@
 clear 
 
-files = dir('data/19_Data_Ainhoa_SOFC_SingleCell_ESC/SPS_Data/');
+pathfolder = [pwd,'/data/19_Data_Ainhoa_SOFC_SingleCell_ESC/SPS_Data/'];
+files = dir(pathfolder);
 
 %%0 
 path = pwd; 
 %%
 
-filename = files(6).name;
-%% Set up the Import Options and import the data
+figure('Unit','norm','pos',[0 0 1 1])
+for i = 3:10
+    filename = files(i).name;
 
-DataSOFCtable  = DataSOFC(filename);
-%%
-figure(1)
-clf
-
-inds = 3:57;
-
-iter = 0;
-for i = 1:length(inds)
-    if length(unique(DataSOFCtable{:,inds(i)}) ) == 1
-        continue
-    end
-    iter = iter +1;
-    subplot(6,6,iter)
-
-    plot(DataSOFCtable.Time,DataSOFCtable{:,inds(i)})
-    xlabel('')
-    if i ~= 1
-    xticks([])
-    end
-    title("D"+inds(i)+" | "+DataSOFCtable.Properties.VariableNames{inds(i)},'Interpreter','latex')
+    DataSOFCtable  = DataSOFC(filename);
+    plotAllDataSOFC(DataSOFCtable)
+    print('-dpng',fullfile(pathfolder,'img','all',num2str(i)+".png"))
 end
 
-
+%%
 %%
 figure(1)
 clf
+figure('Unit','norm','pos',[0 0 1 1])
+for i = 3:50
+    filename = files(i).name;
 
-inds = 3:57;
-
-iter = 0;
-for i = 1:length(inds)
-
-    iter = iter +1;
-    subplot(8,7,iter)
-
-    plot(DataSOFCtable.Time,DataSOFCtable{:,inds(i)})
-    xlabel('')
-    if i ~= 1
-    xticks([])
-    end
-    title("D"+inds(i)+" | "+DataSOFCtable.Properties.VariableNames{inds(i)},'Interpreter','latex')
+    DataSOFCtable  = DataSOFC(filename);
+    plotnonzeroDataSOFC(DataSOFCtable)
+    print('-dpng',fullfile(pathfolder,'img','nonzero',num2str(i)+".png"))
 end
 
 
@@ -71,9 +47,9 @@ end
 figure(2)
 clf
 iter = 0;
-for i = [50 51 26 28]
+for i = [5 50 51 26 28]
     iter = iter + 1;
-    subplot(2,2,iter)
+    subplot(2,3,iter)
     plot(DataSOFCtable.Time,DataSOFCtable{:,i})
     title("D"+i+" | "+DataSOFCtable.Properties.VariableNames{i},'Interpreter','latex')
 end
