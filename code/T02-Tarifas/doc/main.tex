@@ -1,0 +1,58 @@
+\documentclass[]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+
+
+\title{Electric Bill Optimisation}
+\begin{document}
+    \maketitle
+
+    When the consumption of electrical energy is very large, it is necessary to specify what your consumption will be during different periods of time during a day.
+    %
+    These time periods are defined by the electricity companies and take into account the total demand of all users.
+    %
+    We will focus specifically on the 6.1 high voltage electric tariff.
+   
+    In this tariff, the electric company defines six periods during the day:
+
+    \begin{gather}
+        \{P_1,P_2,P_3,P_4,P_5,P_6\}
+    \end{gather}
+
+    These periods are defined taking into account the total demand of all users, so that the cost of energy in the period $ P_1 $ is more expensive than in the period $ P_6 $. 
+    %
+    For each of these periods $ P_i $ the company sets a constant $ c_i $ that we will call the cost of the period.    
+    %
+    Then, the user must choose a vector $ p = (p_1, p_2, p_3, p_4, p_5, p_6) $ such that:
+
+    \begin{gather}
+        450 < p_1 < p_2 < p_3 < p_4 < p_5 < p_6
+    \end{gather}
+
+  
+    So at the end of a month $m$ you will be charged:
+
+    \begin{gather}
+        \Phi^m(p) = \sum_{i=1}^6 \Bigg( c_ip_i + 1.4064 \sqrt{\sum_{j \in J} (\pi_j^{i,m} - p_i)^2 \ \Theta(\pi_j^i - p_i)}\Bigg)
+    \end{gather}
+
+Where $ \pi_j ^{i,m} $ is the maximum power that has been consumed in the period $ P_i $ for each day $ j $ of month $m$ and where the function $\Theta: \mathbb{R} \Rightarrow \mathbb {R}$ is:
+
+    \begin{gather}
+        \Theta(x) = \begin{cases}
+            1 & if  x>0 \\
+            0 & if \ x<0
+        \end{cases}
+    \end{gather}
+
+    It is proposed to minimize the cost throughout the year with respect to the parameters $ p $ as follows:
+    \begin{gather}
+        \min_{p\in\mathbb{R}^6} \sum_{m=1}^{12} \Phi^m(p) \\ 
+        \notag \text{suject to:} \\
+        \notag 450 < p_1 < p_2 < p_3 < p_4 < p_5 < p_6
+    \end{gather}
+
+    Due to the discontinuities of the $ \Phi $ function, the gradient-based optimization methods are not effective. Genetic algorithms are a good option for this type of problem since it does not take into account the gradient of the function.
+    \end{document}
